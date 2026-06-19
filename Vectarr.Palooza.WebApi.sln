@@ -1,0 +1,76 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35506.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.WebApi", "Vectarr.Palooza.WebApi\Vectarr.Palooza.WebApi.csproj", "{7DBD6BD4-41AC-475D-807A-4413B4135771}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.Context", "Vectarr.Palooza.Context\Vectarr.Palooza.Context.csproj", "{A2DAD295-4F04-4BF8-8EA3-DF4377963F87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.Model", "Vectarr.Palooza.Model\Vectarr.Palooza.Model.csproj", "{C353CC79-C7B5-4585-8E41-74524F8B5CEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.Classes", "Vectarr.Palooza.Classes\Vectarr.Palooza.Classes.csproj", "{9A72C9F7-C993-46E5-AA9B-4BBD8B0084DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.Exceptions", "Vectarr.Palooza.Exceptions\Vectarr.Palooza.Exceptions.csproj", "{E72742AC-61BB-4CEE-B2A9-3550C56763D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.ApiBusiness", "Vectarr.Palooza.ApiBusiness\Vectarr.Palooza.ApiBusiness.csproj", "{ACC077B6-A1F3-4A37-BFEF-F4449794D0B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.DataAccess", "Vectarr.Palooza.DataAccess\Vectarr.Palooza.DataAccess.csproj", "{AC5E1521-D260-45FD-8E82-2D5C593B1E90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.CoreClasses", "Vectarr.Palooza.CoreClasses\Vectarr.Palooza.CoreClasses.csproj", "{73346452-6D0F-4D74-8A54-541BA89D5900}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.Utils", "Vectarr.Palooza.Utils\Vectarr.Palooza.Utils.csproj", "{49074843-286C-4B69-9E15-75D1174B925C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.Digifabster", "Vectarr.Palooza.Digifabster\Vectarr.Palooza.Digifabster.csproj", "{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7DBD6BD4-41AC-475D-807A-4413B4135771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DBD6BD4-41AC-475D-807A-4413B4135771}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DBD6BD4-41AC-475D-807A-4413B4135771}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DBD6BD4-41AC-475D-807A-4413B4135771}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2DAD295-4F04-4BF8-8EA3-DF4377963F87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2DAD295-4F04-4BF8-8EA3-DF4377963F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2DAD295-4F04-4BF8-8EA3-DF4377963F87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2DAD295-4F04-4BF8-8EA3-DF4377963F87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C353CC79-C7B5-4585-8E41-74524F8B5CEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C353CC79-C7B5-4585-8E41-74524F8B5CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C353CC79-C7B5-4585-8E41-74524F8B5CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C353CC79-C7B5-4585-8E41-74524F8B5CEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A72C9F7-C993-46E5-AA9B-4BBD8B0084DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A72C9F7-C993-46E5-AA9B-4BBD8B0084DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A72C9F7-C993-46E5-AA9B-4BBD8B0084DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A72C9F7-C993-46E5-AA9B-4BBD8B0084DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E72742AC-61BB-4CEE-B2A9-3550C56763D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E72742AC-61BB-4CEE-B2A9-3550C56763D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E72742AC-61BB-4CEE-B2A9-3550C56763D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E72742AC-61BB-4CEE-B2A9-3550C56763D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACC077B6-A1F3-4A37-BFEF-F4449794D0B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACC077B6-A1F3-4A37-BFEF-F4449794D0B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACC077B6-A1F3-4A37-BFEF-F4449794D0B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACC077B6-A1F3-4A37-BFEF-F4449794D0B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC5E1521-D260-45FD-8E82-2D5C593B1E90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC5E1521-D260-45FD-8E82-2D5C593B1E90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC5E1521-D260-45FD-8E82-2D5C593B1E90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC5E1521-D260-45FD-8E82-2D5C593B1E90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73346452-6D0F-4D74-8A54-541BA89D5900}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73346452-6D0F-4D74-8A54-541BA89D5900}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73346452-6D0F-4D74-8A54-541BA89D5900}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73346452-6D0F-4D74-8A54-541BA89D5900}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49074843-286C-4B69-9E15-75D1174B925C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49074843-286C-4B69-9E15-75D1174B925C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49074843-286C-4B69-9E15-75D1174B925C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49074843-286C-4B69-9E15-75D1174B925C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

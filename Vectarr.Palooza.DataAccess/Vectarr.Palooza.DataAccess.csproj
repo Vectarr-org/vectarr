@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LinqKit.Core" Version="1.2.8" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.9" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vectarr.Palooza.Classes\Vectarr.Palooza.Classes.csproj" />
+    <ProjectReference Include="..\Vectarr.Palooza.Context\Vectarr.Palooza.Context.csproj" />
+    <ProjectReference Include="..\Vectarr.Palooza.Model\Vectarr.Palooza.Model.csproj" />
+    <ProjectReference Include="..\Vectarr.Palooza.Utils\Vectarr.Palooza.Utils.csproj" />
+  </ItemGroup>
+
+</Project>

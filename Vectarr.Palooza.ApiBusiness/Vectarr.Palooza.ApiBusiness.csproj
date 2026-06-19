@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Emailing\EmailTemplates\ContactMessageEmail.html" />
+    <None Remove="Emailing\EmailTemplates\EmailVerification.html" />
+    <None Remove="Emailing\EmailTemplates\Footer.html" />
+    <None Remove="Emailing\EmailTemplates\ForgotPassword.html" />
+    <None Remove="Emailing\EmailTemplates\Header.html" />
+    <None Remove="Emailing\EmailTemplates\PartnerRequest.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Emailing\EmailTemplates\ContactMessageEmail.html" />
+    <EmbeddedResource Include="Emailing\EmailTemplates\EmailVerification.html" />
+    <EmbeddedResource Include="Emailing\EmailTemplates\Footer.html" />
+    <EmbeddedResource Include="Emailing\EmailTemplates\ForgotPassword.html" />
+    <EmbeddedResource Include="Emailing\EmailTemplates\Header.html" />
+    <EmbeddedResource Include="Emailing\EmailTemplates\PartnerRequest.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.14.0" />
+    <PackageReference Include="OpenAI" Version="2.2.0-beta.4" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vectarr.Palooza.Classes\Vectarr.Palooza.Classes.csproj" />
+    <ProjectReference Include="..\Vectarr.Palooza.DataAccess\Vectarr.Palooza.DataAccess.csproj" />
+    <ProjectReference Include="..\Vectarr.Palooza.Digifabster\Vectarr.Palooza.Digifabster.csproj" />
+    <ProjectReference Include="..\Vectarr.Palooza.Exceptions\Vectarr.Palooza.Exceptions.csproj" />
+  </ItemGroup>
+
+</Project>

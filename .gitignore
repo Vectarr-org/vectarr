@@ -1,0 +1,13 @@
+﻿.vs/
+bin/
+obj/
+*.user
+*.suo
+appsettings.*.json
+!appsettings.json
+node_modules/
+.next/
+dist/
+*.tar
+*.tar.gz
+.DS_Store
