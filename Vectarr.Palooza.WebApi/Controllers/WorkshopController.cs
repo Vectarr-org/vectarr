@@ -1,6 +1,8 @@
 ﻿using Vectarr.Palooza.ApiBusiness.IServices;
 using Vectarr.Palooza.ApiBusiness.Services.WorkshopServices;
 using Vectarr.Palooza.Classes.Api;
+using Vectarr.Palooza.Classes.BaseApi;
+using Vectarr.Palooza.CoreClasses.Enums;
 using Vectarr.Palooza.DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +27,27 @@ namespace Vectarr.Palooza.WebApi.Controllers
         public List<JobModel> GetAvailableJobs()
         {
             return _workshopServices.GetAvailableJobs();
+        }
+
+        /// <summary>
+        /// Admin only. Paged certificate review queue.
+        /// GET api/Workshop/CertificationsForReview?reviewStatus=0&amp;pageNumber=1&amp;countPerPage=10&amp;orderBy=&amp;sort=
+        /// reviewStatus defaults to Pending (0). sort starting with "d" orders descending, same as Get.
+        /// </summary>
+        [HttpGet("CertificationsForReview")]
+        public ListViewModel<CertificationReviewItemModel> CertificationsForReview(
+            CertificationReviewStatusEnum? reviewStatus = null,
+            int pageNumber = 1,
+            int countPerPage = 10,
+            string? orderBy = null,
+            string? sort = null)
+        {
+            return _workshopServices.ListCertificationsForReview(
+                reviewStatus,
+                pageNumber,
+                countPerPage,
+                orderBy,
+                sort != null && sort.StartsWith("d"));
         }
 
         /// <summary>

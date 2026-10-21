@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using LinqKit;
 using Vectarr.Palooza.Classes.Api;
+using Vectarr.Palooza.CoreClasses;
 using Vectarr.Palooza.CoreClasses.Enums;
 using Vectarr.Palooza.Model;
 using Vectarr.Palooza.DataAccess;
@@ -32,6 +33,53 @@ namespace Vectarr.Palooza.DataAccess.Repositories
                 ReviewedByEmail = entity.ReviewedBy != null ? entity.ReviewedBy.Email : null,
                 ReviewedAt = entity.ReviewedAt,
                 ExpiryDate = entity.ExpiryDate,
+                RejectionReason = entity.RejectionReason,
+            };
+        }
+
+        public List<CertificationReviewItemModel> ListForReview(
+            CertificationReviewStatusEnum reviewStatus,
+            int pageNumber,
+            int countPerPage,
+            string? orderBy,
+            bool orderByDescending,
+            out int totalCount)
+        {
+            // Same page bounds and skip as CertificationReviewQueue.Page: (pageNumber - 1) * countPerPage.
+            CertificationReviewQueue.EnsurePage(pageNumber, countPerPage);
+            var query = GetEntitiesQueryable(skipApplicationCheck: true)
+                .Where(entity => !entity.IsHidden
+                    && entity.ReviewStatus == reviewStatus
+                    && !entity.Workshop.IsRemoved
+                    && !entity.Workshop.IsHidden);
+
+            query = ApplyPaging(query, pageNumber, countPerPage, out totalCount, orderBy, orderByDescending);
+            return query.Select(GetReviewItemExpression()).ToList();
+        }
+
+        public bool AnyVisible()
+        {
+            return GetEntitiesQueryable(skipApplicationCheck: true).Any(entity => !entity.IsHidden);
+        }
+
+        private static Expression<Func<WorkshopCertification, CertificationReviewItemModel>> GetReviewItemExpression()
+        {
+            return entity => new CertificationReviewItemModel
+            {
+                Id = entity.Id,
+                DateCreated = entity.CreatedDate,
+                LastModified = entity.LastModified,
+                WorkshopId = entity.WorkshopId,
+                WorkshopName = entity.Workshop.Name,
+                Country = entity.Workshop.Country ?? (entity.Workshop.Address != null ? entity.Workshop.Address.Country : null),
+                Certification = entity.Certification,
+                OtherCertification = entity.OtherCertification,
+                DocumentId = entity.DocumentId,
+                ExpiryDate = entity.ExpiryDate,
+                ReviewStatus = entity.ReviewStatus,
+                ReviewedByUserId = entity.ReviewedByUserId,
+                ReviewedByEmail = entity.ReviewedBy != null ? entity.ReviewedBy.Email : null,
+                ReviewedAt = entity.ReviewedAt,
                 RejectionReason = entity.RejectionReason,
             };
         }

@@ -3,6 +3,8 @@ using Vectarr.Palooza.ApiBusiness.Emailing.EmailTemplates.TemplateClasses;
 using Vectarr.Palooza.ApiBusiness.IServices;
 using Vectarr.Palooza.ApiBusiness.Services.WorkOrderServices;
 using Vectarr.Palooza.Classes.Api;
+using Vectarr.Palooza.Classes.BaseApi;
+using Vectarr.Palooza.CoreClasses;
 using Vectarr.Palooza.CoreClasses.Enums;
 using Vectarr.Palooza.DataAccess;
 using Vectarr.Palooza.Exceptions;
@@ -173,6 +175,49 @@ namespace Vectarr.Palooza.ApiBusiness.Services.WorkshopServices
         }
 
         /// <summary>
+        /// Admin certificate review queue. Status defaults to pending. Paging matches Get: pageNumber starts at 1, countPerPage defaults to 10.
+        /// </summary>
+        public ListViewModel<CertificationReviewItemModel> ListCertificationsForReview(
+            CertificationReviewStatusEnum? reviewStatus,
+            int pageNumber,
+            int countPerPage,
+            string? orderBy,
+            bool orderByDescending)
+        {
+            EnsureAdmin();
+            CertificationReviewStatusEnum status;
+            try
+            {
+                CertificationReviewQueue.EnsurePage(pageNumber, countPerPage);
+                status = CertificationReviewQueue.ResolveStatus(reviewStatus);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw new ErrorValidationException(ex.Message);
+            }
+
+            var certifications = _unitOfWork.Repositories.WorkshopCertificationRepository;
+            var data = certifications.ListForReview(status, pageNumber, countPerPage, orderBy, orderByDescending, out var count);
+            return new ListViewModel<CertificationReviewItemModel>(data, count)
+            {
+                HasData = certifications.AnyVisible(),
+                SearchInfo = new SearchInfo
+                {
+                    FilterQueryString = new List<KeyValuePair<string, string>>
+                    {
+                        new KeyValuePair<string, string>("reviewStatus", ((int)status).ToString())
+                    },
+                    OrderBy = orderBy,
+                    OrderByDescending = orderByDescending,
+                    CountPerPage = countPerPage,
+                    ReturnedIds = data.Select(item => item.Id).ToList(),
+                    Page = pageNumber,
+                    TotalPages = CertificationReviewQueue.TotalPages(count, countPerPage)
+                }
+            };
+        }
+
+        /// <summary>
         /// Admin review of a certificate upload. Shops cannot set review status through workshop Save.
         /// </summary>
         public WorkshopCertificationModel ReviewCertification(CertificationReviewRequest request)
@@ -182,10 +227,7 @@ namespace Vectarr.Palooza.ApiBusiness.Services.WorkshopServices
                 throw new ErrorValidationException("A review request is required.");
             }
 
-            if (!_unitOfWork.HasResolvedRole || !string.Equals(_unitOfWork.RoleName, "Admin", StringComparison.OrdinalIgnoreCase))
-            {
-                throw new ErrorValidationException("Only an admin can review shop certifications.");
-            }
+            EnsureAdmin();
 
             if (request.ReviewStatus == CertificationReviewStatusEnum.Pending)
             {
@@ -217,6 +259,14 @@ namespace Vectarr.Palooza.ApiBusiness.Services.WorkshopServices
 
             certifications.Update(entity);
             return certifications.GetById(request.CertificationId, skipApplicationCheck: true);
+        }
+
+        private void EnsureAdmin()
+        {
+            if (!_unitOfWork.HasResolvedRole || !string.Equals(_unitOfWork.RoleName, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ErrorValidationException("Only an admin can review shop certifications.");
+            }
         }
     }
 }
