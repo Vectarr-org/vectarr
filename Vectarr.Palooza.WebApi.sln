@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.Utils", "Ve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.Digifabster", "Vectarr.Palooza.Digifabster\Vectarr.Palooza.Digifabster.csproj", "{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.Tests", "Vectarr.Palooza.Tests\Vectarr.Palooza.Tests.csproj", "{EBD37A24-5134-4841-AAEA-D6A2FA5D1D2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBD37A24-5134-4841-AAEA-D6A2FA5D1D2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBD37A24-5134-4841-AAEA-D6A2FA5D1D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBD37A24-5134-4841-AAEA-D6A2FA5D1D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBD37A24-5134-4841-AAEA-D6A2FA5D1D2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

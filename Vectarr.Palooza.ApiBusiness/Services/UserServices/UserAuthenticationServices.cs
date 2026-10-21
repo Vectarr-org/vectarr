@@ -4,6 +4,7 @@ using Vectarr.Palooza.Classes.Api;
 using Vectarr.Palooza.DataAccess;
 using Vectarr.Palooza.Model;
 using Vectarr.Palooza.Exceptions;
+using Vectarr.Palooza.CoreClasses;
 using Vectarr.Palooza.CoreClasses.Enums;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -120,14 +121,17 @@ namespace Vectarr.Palooza.ApiBusiness.Services.UserServices
             }
             else if (user.IsWorkshop)
             {
+                var shopCountry = SourcingRegionPolicy.ResolveCountry(user.Workshop.Country, user.Workshop.CountryCodeInput)
+                    ?? user.Workshop.Address.Country;
                 newUser.Workshop = new Workshop()
                 {
                     Name = user.Workshop.Name,
                     CompanyName = user.Workshop.CompanyName,
                     Email = user.EmailAddress,
+                    Country = shopCountry,
                     Address = new Address()
                     {
-                        Country = user.Workshop.Address.Country,
+                        Country = shopCountry,
                         City = user.Workshop.Address.City,
                         State = user.Workshop.Address.State,
                         Street1 = user.Workshop.Address.Street1,

@@ -306,6 +306,9 @@ namespace Vectarr.Palooza.Context.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<decimal>("DutyEstimate")
+                        .HasColumnType("numeric");
+
                     b.Property<int?>("EstimatedDaysToComplete")
                         .HasColumnType("integer");
 
@@ -324,6 +327,9 @@ namespace Vectarr.Palooza.Context.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
+                    b.Property<int?>("ShipFromCountry")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("Shipping")
                         .HasColumnType("numeric");
 
@@ -335,6 +341,9 @@ namespace Vectarr.Palooza.Context.Migrations
 
                     b.Property<decimal?>("Taxes")
                         .HasColumnType("numeric");
+
+                    b.Property<int?>("TransitDays")
+                        .HasColumnType("integer");
 
                     b.Property<int>("WorkshopId")
                         .HasColumnType("integer");
@@ -751,7 +760,13 @@ namespace Vectarr.Palooza.Context.Migrations
                     b.Property<decimal?>("InitialPrice")
                         .HasColumnType("numeric");
 
+                    b.Property<bool>("IsExportControlled")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsHidden")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsItar")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsRemoved")
@@ -782,6 +797,9 @@ namespace Vectarr.Palooza.Context.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<int?>("SourceFinish")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SourcingRegion")
                         .HasColumnType("integer");
 
                     b.Property<int>("Status")
@@ -1291,6 +1309,9 @@ namespace Vectarr.Palooza.Context.Migrations
                     b.Property<string>("CompanyName")
                         .HasColumnType("text");
 
+                    b.Property<int?>("Country")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -1387,6 +1408,12 @@ namespace Vectarr.Palooza.Context.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int?>("DocumentId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ExpiryDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("IsHidden")
                         .HasColumnType("boolean");
 
@@ -1399,10 +1426,27 @@ namespace Vectarr.Palooza.Context.Migrations
                     b.Property<string>("OtherCertification")
                         .HasColumnType("text");
 
+                    b.Property<string>("RejectionReason")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<int>("ReviewStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("ReviewedByUserId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("WorkshopId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
+
+                    b.HasIndex("ReviewedByUserId");
 
                     b.HasIndex("WorkshopId");
 
@@ -1990,11 +2034,25 @@ namespace Vectarr.Palooza.Context.Migrations
 
             modelBuilder.Entity("Vectarr.Palooza.Model.WorkshopCertification", b =>
                 {
+                    b.HasOne("Vectarr.Palooza.Model.Image", "Document")
+                        .WithMany()
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Vectarr.Palooza.Model.UserAccount", "ReviewedBy")
+                        .WithMany()
+                        .HasForeignKey("ReviewedByUserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("Vectarr.Palooza.Model.Workshop", "Workshop")
                         .WithMany("WorkshopCertifications")
                         .HasForeignKey("WorkshopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Document");
+
+                    b.Navigation("ReviewedBy");
 
                     b.Navigation("Workshop");
                 });

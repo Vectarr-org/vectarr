@@ -16,6 +16,10 @@ namespace Vectarr.Palooza.DataAccess
         Identity Identity { get; }
         ApplicationSubscriptionModel Subscription { get; }
         public RolesEnum Role { get; }
+        /// <summary>True when SetEmail loaded an identity role for the current user.</summary>
+        bool HasResolvedRole { get; }
+        /// <summary>AspNetRoles.Name for the current user, when a role was loaded.</summary>
+        string? RoleName { get; }
         public WorkshopModel Workshop { get; }
         public CreatorModel Creator { get; }
     }

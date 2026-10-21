@@ -5,6 +5,7 @@ using Vectarr.Palooza.Model;
 using Microsoft.EntityFrameworkCore;
 using Vectarr.Palooza.DataAccess;
 using Vectarr.Palooza.DataAccess.Infrastructure;
+using Vectarr.Palooza.CoreClasses;
 using Vectarr.Palooza.DataAccess.IRepositories;
 
 namespace Vectarr.Palooza.DataAccess.Repositories
@@ -47,6 +48,7 @@ namespace Vectarr.Palooza.DataAccess.Repositories
                 WorkshopCertifications = entity.WorkshopCertifications.AsQueryable().Where(s => !s.IsRemoved && !s.IsHidden)
                 .Select(workshopCertificatesExpression).ToList(),
                 Images = entity.Images.AsQueryable().Where(s => !s.IsRemoved && !s.IsHidden).Select(imageExpression).ToList(),
+                Country = entity.Country ?? (entity.Address != null ? entity.Address.Country : null),
             };
         }
 
@@ -68,6 +70,17 @@ namespace Vectarr.Palooza.DataAccess.Repositories
             entity.CompanyName = model.CompanyName;
             entity.Description = model.Description;
 
+            var resolvedCountry = SourcingRegionPolicy.ResolveCountry(model.Country, model.CountryCodeInput);
+            if (!resolvedCountry.HasValue && model.Address?.Country != null)
+            {
+                resolvedCountry = model.Address.Country;
+            }
+
+            if (resolvedCountry.HasValue)
+            {
+                entity.Country = resolvedCountry;
+            }
+
             if (model.Address != null)
             {
                 if (model.Address.Id != 0)
@@ -85,6 +98,15 @@ namespace Vectarr.Palooza.DataAccess.Repositories
             else
             {
                 entity.Address = null;
+            }
+
+            if (resolvedCountry.HasValue && entity.Address != null)
+            {
+                entity.Address.Country = resolvedCountry;
+            }
+            else if (entity.Country == null && entity.Address?.Country != null)
+            {
+                entity.Country = entity.Address.Country;
             }
 
             if (model.Logo?.Id != null)

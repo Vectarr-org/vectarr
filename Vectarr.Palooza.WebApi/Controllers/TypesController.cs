@@ -18,9 +18,24 @@ namespace Vectarr.Palooza.WebApi.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("Countries")]
-        public List<EnumListModel> Countries()
+        public List<EnumCountryListModel> Countries()
         {
-            return new CountryWrapper().GetNonOrderedListModel();
+            return new CountryWrapper().GetCountryList();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("SourcingRegions")]
+        public List<EnumListModel> SourcingRegions()
+        {
+            return new SourcingRegionEnumWrapper().GetNonOrderedListModel();
+        }
+
+        [HttpGet]
+        [Route("CertificationReviewStatuses")]
+        public List<EnumListModel> CertificationReviewStatuses()
+        {
+            return new CertificationReviewStatusEnumWrapper().GetNonOrderedListModel();
         }
 
         [HttpGet]

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Vectarr.Palooza.DataAccess.IInfrastructure;
 using Vectarr.Palooza.DataAccess.Infrastructure;
 using Vectarr.Palooza.DataAccess.IRepositories;
+using Vectarr.Palooza.CoreClasses;
 using Vectarr.Palooza.CoreClasses.Enums;
 
 namespace Vectarr.Palooza.DataAccess.Repositories
@@ -53,7 +54,10 @@ namespace Vectarr.Palooza.DataAccess.Repositories
                 WorkOrderId = entity.WorkOrder != null ? entity.WorkOrder.Id : null,
                 RequireQcConfirmation = entity.RequireQcConfirmation,
                 QCPercentage = entity.QCPrecentage,
-                AutoAcceptQcReport = entity.AutoAcceptQcReport
+                AutoAcceptQcReport = entity.AutoAcceptQcReport,
+                SourcingRegion = entity.SourcingRegion,
+                IsItar = entity.IsItar,
+                IsExportControlled = entity.IsExportControlled
             };
         }
 
@@ -81,6 +85,9 @@ namespace Vectarr.Palooza.DataAccess.Repositories
 
             entity.RequireQcConfirmation = model.RequireQcConfirmation;
             entity.QCPrecentage = model.QCPercentage;
+            entity.IsItar = model.IsItar;
+            entity.IsExportControlled = model.IsExportControlled;
+            entity.SourcingRegion = SourcingRegionPolicy.Resolve(model.SourcingRegion, model.IsItar, model.IsExportControlled);
 
             if (model.Id == 0)
             {
@@ -130,13 +137,27 @@ namespace Vectarr.Palooza.DataAccess.Repositories
                 .Select(s => s.Capability)
                 .ToList();
 
-            return GetEntitiesQueryable(skipApplicationCheck: true)
+            var shopCountry = workshop.Country ?? workshop.Address?.Country;
+            // Same boolean as SourcingRegionPolicy.VisibleInShopJobQuery. Non-US shops, including shops
+            // with no country, do not receive US-only, ITAR, or export-controlled RFQs.
+            var shopIsInUnitedStates = shopCountry == CountryEnum.UnitedStates;
+
+            var jobs = GetEntitiesQueryable(skipApplicationCheck: true)
                 .Where(w => w.Status == JobStatusEnum.Published
                 && !w.IsRemoved && !w.ManualPricing
                 && capabilityValues != null
-                && capabilityValues.Contains(w.ManufacturingType) && w.Bids.Count == 0).OrderByDescending(w => w.CreatedDate)
+                && capabilityValues.Contains(w.ManufacturingType) && w.Bids.Count == 0
+                && (shopIsInUnitedStates || (w.SourcingRegion != SourcingRegionEnum.UsShopsOnly && !w.IsItar && !w.IsExportControlled)))
+                .OrderByDescending(w => w.CreatedDate)
                 .Select(GetEntityToModelExpression())
                 .ToList();
+
+            return SourcingRegionPolicy.FilterVisible(
+                jobs,
+                shopCountry,
+                job => job.SourcingRegion,
+                job => job.IsItar,
+                job => job.IsExportControlled).ToList();
         }
 
     }

@@ -10,6 +10,7 @@ namespace Vectarr.Palooza.DataAccess.IInfrastructure
         TEntity ModelToEntity(TModel model, TEntity entity);
         List<TEntity> ReplaceCollection(IEnumerable<TEntity> original, List<TEntity> updated, bool softDelete = true);
         void Update(List<TEntity> entities);
+        void Update(TEntity entity);
         TEntity Insert(TEntity entity);
         TModel UpdateWithInclude(TModel model, bool skipApplicationCheck = false);
         DeleteHandler<TEntity> GetDeleteHandler();

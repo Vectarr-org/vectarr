@@ -60,7 +60,10 @@ namespace Vectarr.Palooza.DataAccess.Repositories
                     Notes = entity.AcceptedBid.Notes,
                     Shipping = entity.AcceptedBid.Shipping,
                     Taxes = entity.AcceptedBid.Taxes,
-                    Tarrifs = entity.AcceptedBid.Tarrifs
+                    Tarrifs = entity.AcceptedBid.Tarrifs,
+                    DutyEstimate = entity.AcceptedBid.DutyEstimate != 0 ? entity.AcceptedBid.DutyEstimate : (entity.AcceptedBid.Tarrifs ?? 0m),
+                    TransitDays = entity.AcceptedBid.TransitDays,
+                    ShipFromCountry = entity.AcceptedBid.ShipFromCountry
                 },
                 CurrentPrice = entity.CurrentPrice,
                 AdditionalFiles = entity.AdditionalFiles.AsQueryable().Where(w => !w.IsRemoved && !w.IsHidden).Select(imageExpression).ToList(),
