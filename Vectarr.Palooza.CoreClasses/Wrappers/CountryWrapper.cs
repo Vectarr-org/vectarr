@@ -418,5 +418,37 @@ namespace Vectarr.Palooza.CoreClasses.Wrappers
         {
             return CountryCodes.TryGetValue(country, out var code) ? code : string.Empty;
         }
+
+        /// <summary>
+        /// Parses an ISO 3166-1 alpha-2 code such as "US" or "cn". Unknown codes return null.
+        /// </summary>
+        public CountryEnum? TryFromAlpha2(string? countryCode)
+        {
+            if (string.IsNullOrWhiteSpace(countryCode))
+            {
+                return null;
+            }
+
+            var normalized = countryCode.Trim();
+            foreach (var pair in CountryCodes)
+            {
+                if (string.Equals(pair.Value, normalized, StringComparison.OrdinalIgnoreCase))
+                {
+                    return pair.Key;
+                }
+            }
+
+            return null;
+        }
+
+        public List<EnumCountryListModel> GetCountryList()
+        {
+            return GetAllValues().Select(x => new EnumCountryListModel
+            {
+                Id = Convert.ToInt32(x),
+                DisplayName = GetDisplayText(x),
+                TwoLetterCode = GetCountryCode(x)
+            }).ToList();
+        }
     }
 }

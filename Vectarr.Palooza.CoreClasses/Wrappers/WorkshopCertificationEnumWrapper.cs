@@ -27,6 +27,8 @@ namespace Vectarr.Palooza.CoreClasses.Wrappers
                     return "NADCAP";
                 case WorkshopCertificationEnum.Other:
                     return "Other";
+                case WorkshopCertificationEnum.ItarRegistration:
+                    return "ITAR Registration";
                 default:
                     return "";
             }

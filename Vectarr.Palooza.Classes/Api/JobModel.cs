@@ -39,5 +39,15 @@ namespace Vectarr.Palooza.Classes.Api
         public int? QCPercentage { get; set; }
         public bool RequireQcConfirmation { get; set; }
         public bool AutoAcceptQcReport { get; set; }
+
+        /// <summary>
+        /// Buyer choice: 0 AnyRegion ("any region"), 1 UsShopsOnly ("US shops only").
+        /// When <see cref="IsItar"/> or <see cref="IsExportControlled"/> is true the server stores UsShopsOnly
+        /// and ignores a client value of AnyRegion.
+        /// </summary>
+        public SourcingRegionEnum SourcingRegion { get; set; }
+        public string SourcingRegionText => new SourcingRegionEnumWrapper().GetDisplayText(SourcingRegion);
+        public bool IsItar { get; set; }
+        public bool IsExportControlled { get; set; }
     }
 }

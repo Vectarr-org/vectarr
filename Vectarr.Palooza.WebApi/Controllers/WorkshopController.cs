@@ -27,6 +27,16 @@ namespace Vectarr.Palooza.WebApi.Controllers
             return _workshopServices.GetAvailableJobs();
         }
 
+        /// <summary>
+        /// Admin only. Sets certificate review status, reviewer, and reviewed-at.
+        /// Body: certificationId, reviewStatus (1 verified, 2 rejected), rejectionReason, expiryDate.
+        /// </summary>
+        [HttpPost("ReviewCertification")]
+        public WorkshopCertificationModel ReviewCertification(CertificationReviewRequest request)
+        {
+            return _workshopServices.ReviewCertification(request);
+        }
+
         [HttpPost("ConfirmAndGetStarted")]
         public WorkOrderModel ConfirmAndGetStarted(int workOrderId, string initialNotes = "")
         {

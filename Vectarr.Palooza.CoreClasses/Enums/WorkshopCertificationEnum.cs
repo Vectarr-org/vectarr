@@ -14,6 +14,8 @@ namespace Vectarr.Palooza.CoreClasses.Enums
         IATF16949,
         ISO14001,
         NADCAP,
-        Other
+        Other,
+        /// <summary>Added after Other so existing stored values do not shift.</summary>
+        ItarRegistration = 7
     }
 }

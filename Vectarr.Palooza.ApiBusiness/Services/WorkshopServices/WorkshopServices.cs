@@ -171,5 +171,52 @@ namespace Vectarr.Palooza.ApiBusiness.Services.WorkshopServices
             PartnerRequest partnerrequestEmail = new PartnerRequest(request);
             await sender.SendAsync(partnerrequestEmail, new IdentityModel() { EmailAddress = "info@vectarr.com" }, overrideSubject: "Partner Request - Vectarr");
         }
+
+        /// <summary>
+        /// Admin review of a certificate upload. Shops cannot set review status through workshop Save.
+        /// </summary>
+        public WorkshopCertificationModel ReviewCertification(CertificationReviewRequest request)
+        {
+            if (request == null)
+            {
+                throw new ErrorValidationException("A review request is required.");
+            }
+
+            if (!_unitOfWork.HasResolvedRole || !string.Equals(_unitOfWork.RoleName, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ErrorValidationException("Only an admin can review shop certifications.");
+            }
+
+            if (request.ReviewStatus == CertificationReviewStatusEnum.Pending)
+            {
+                throw new ErrorValidationException("Set the review status to verified or rejected.");
+            }
+
+            if (request.ReviewStatus == CertificationReviewStatusEnum.Rejected && string.IsNullOrWhiteSpace(request.RejectionReason))
+            {
+                throw new ErrorValidationException("A rejection reason is required when rejecting a certificate.");
+            }
+
+            var certifications = _unitOfWork.Repositories.WorkshopCertificationRepository;
+            var entity = certifications.GetEntityById(request.CertificationId, skipApplicationCheck: true);
+            if (entity == null || entity.IsRemoved)
+            {
+                throw new ErrorValidationException("Certification was not found.");
+            }
+
+            entity.ReviewStatus = request.ReviewStatus;
+            entity.ReviewedByUserId = _unitOfWork.CurrentUser.Id;
+            entity.ReviewedAt = DateTime.UtcNow;
+            entity.RejectionReason = request.ReviewStatus == CertificationReviewStatusEnum.Rejected
+                ? request.RejectionReason?.Trim()
+                : null;
+            if (request.ExpiryDate.HasValue)
+            {
+                entity.ExpiryDate = request.ExpiryDate;
+            }
+
+            certifications.Update(entity);
+            return certifications.GetById(request.CertificationId, skipApplicationCheck: true);
+        }
     }
 }

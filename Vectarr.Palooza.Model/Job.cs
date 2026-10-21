@@ -35,5 +35,12 @@ namespace Vectarr.Palooza.Model
         public int? QCPrecentage { get; set; }
         public bool RequireQcConfirmation { get; set; }
         public bool AutoAcceptQcReport { get; set; }
+
+        /// <summary>
+        /// Buyer sourcing choice. Forced to US-only when <see cref="IsItar"/> or <see cref="IsExportControlled"/> is set.
+        /// </summary>
+        public SourcingRegionEnum SourcingRegion { get; set; }
+        public bool IsItar { get; set; }
+        public bool IsExportControlled { get; set; }
     }
 }

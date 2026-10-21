@@ -27,6 +27,8 @@ namespace Vectarr.Palooza.DataAccess
         private readonly RoleManager<Model.IdentityRole> _roleManager;
         private readonly UserManager<Model.UserAccount> _userManager;
         public RolesEnum Role { get; protected set; }
+        public bool HasResolvedRole { get; protected set; }
+        public string? RoleName { get; protected set; }
 
         public UnitOfWork(VectarrPostgresDBContext context, RoleManager<Model.IdentityRole> roleManager, UserManager<Model.UserAccount> userManager)
         {
@@ -42,6 +44,9 @@ namespace Vectarr.Palooza.DataAccess
 
         public void SetEmail(string email)
         {
+            HasResolvedRole = false;
+            RoleName = null;
+
             var user = GetGenericRepository<UserAccount>()
                         .GetQueryable()
                         .FirstOrDefault(w => w.Email == email);
@@ -59,7 +64,12 @@ namespace Vectarr.Palooza.DataAccess
                         if (_roleManager != null)
                         {
                             role = _roleManager.FindByNameAsync(roleName).Result;
-                            Role = role.Role;
+                            if (role != null)
+                            {
+                                Role = role.Role;
+                                RoleName = role.Name;
+                                HasResolvedRole = true;
+                            }
                         }
                     }
                 }

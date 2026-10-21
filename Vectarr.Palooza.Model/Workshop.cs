@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vectarr.Palooza.CoreClasses.Enums;
 
 namespace Vectarr.Palooza.Model
 {
@@ -27,6 +28,11 @@ namespace Vectarr.Palooza.Model
         public virtual ICollection<Image> Images { get; set; }
         public int? AddressId { get; set; } // nullable
         public virtual Address? Address { get; set; } // nullable
+        /// <summary>
+        /// Shop country. ISO 3166-1 alpha-2 is exposed as CountryCode on the API model.
+        /// Kept in sync with <see cref="Address"/> when either side is set.
+        /// </summary>
+        public CountryEnum? Country { get; set; }
         public string? CompanyName { get; set; }
         public string? CompanyInfo { get; set; }
         public virtual ICollection<Bid> Bids { get; set; }
