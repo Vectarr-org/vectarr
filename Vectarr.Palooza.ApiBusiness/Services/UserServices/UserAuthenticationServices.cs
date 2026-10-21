@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.Text.RegularExpressions;
 using Vectarr.Palooza.Classes.Api;
 using Vectarr.Palooza.DataAccess;
 using Vectarr.Palooza.Model;
 using Vectarr.Palooza.Exceptions;
+using Vectarr.Palooza.CoreClasses;
 using Vectarr.Palooza.CoreClasses.Enums;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -210,10 +210,10 @@ namespace Vectarr.Palooza.ApiBusiness.Services.UserServices
             {
                 errors.Add("Email is required.");
             }
-            //else if (!IsValid(user.EmailAddress))
-            //{
-            //    throw new ErrorValidationException("Invalid email address.");
-            //}
+            else if (!IsValid(user.EmailAddress))
+            {
+                errors.Add("Invalid email address.");
+            }
 
             if (string.IsNullOrEmpty(user.Password) && !user.IsExternal)
             {
@@ -343,11 +343,9 @@ namespace Vectarr.Palooza.ApiBusiness.Services.UserServices
         }
 
 
-        private bool IsValid(string email)
+        private static bool IsValid(string email)
         {
-            string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
-
-            return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
+            return EmailAddressValidator.IsValid(email);
         }
 
         public async Task<AuthenticationResult> ResetPassword(string email, string code, string newPassword)
