@@ -29,5 +29,6 @@
         IBlogRepository BlogRepository { get; }
         IBlogSectionRepository BlogSectionRepository { get; }
         IBlogKeywordRepository BlogKeywordRepository { get; }
+        IQuoteRequestRepository QuoteRequestRepository { get; }
     }
 }

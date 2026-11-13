@@ -20,12 +20,6 @@ namespace Vectarr.Palooza.DataAccess.Infrastructure
             get { return UnitOfWork.ApplicationId; }
         }
 
-        public virtual bool AnyData(List<Filter> filters = null)
-        {
-            return GetEntitiesQueryable().Any(w => !w.IsHidden);
-        }
-
-
         public virtual List<TModel> GetAll(int pageNumber, int countPerPage, out int totalCount,
     List<Filter> filters = null, string orderBy = null, bool orderByDescending = false, bool skipApplicationCheck = false)
         {

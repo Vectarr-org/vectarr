@@ -34,7 +34,6 @@ namespace Vectarr.Palooza.DataAccess.Repositories
                 ReferralCode = entity.ReferralCode,
                 WorkshopId = entity.Workshop != null ? entity.Workshop.Id : null,
                 CreatorId = entity.Creator != null ? entity.Creator.Id : null,
-                DigifabsterId = entity.DigifabsterId,
             };
         }
 
@@ -48,7 +47,6 @@ namespace Vectarr.Palooza.DataAccess.Repositories
         {
             entity.Identity = entity.Identity ?? UnitOfWork.Repositories.IdentityRepository.GetEntityById(model.IdentityId);
             entity.Application = entity.Application ?? UnitOfWork.Repositories.ApplicationRepository.GetEntityById(model.ApplicationId);
-            entity.DigifabsterId = model.DigifabsterId;
             return entity;
         }
 

@@ -22,6 +22,5 @@ namespace Vectarr.Palooza.Model
 
         public virtual Creator? Creator { get; set; }
         public virtual Workshop? Workshop { get; set; }
-        public string? DigifabsterId { get; set; }
     }
 }

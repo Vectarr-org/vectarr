@@ -126,5 +126,13 @@ namespace Vectarr.Palooza.WebApi.Controllers
             return new WorkshopCertificationEnumWrapper().GetNonOrderedListModel();
         }
 
+        [HttpGet]
+        [Route("QuoteRequestStatuses")]
+        [AllowAnonymous]
+        public List<EnumListModel> QuoteRequestStatuses()
+        {
+            return new QuoteRequestStatusEnumWrapper().GetNonOrderedListModel();
+        }
+
     }
 }

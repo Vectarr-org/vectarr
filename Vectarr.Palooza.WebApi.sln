@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.CoreClasses
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.Utils", "Vectarr.Palooza.Utils\Vectarr.Palooza.Utils.csproj", "{49074843-286C-4B69-9E15-75D1174B925C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.Digifabster", "Vectarr.Palooza.Digifabster\Vectarr.Palooza.Digifabster.csproj", "{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vectarr.Palooza.Tests", "Vectarr.Palooza.Tests\Vectarr.Palooza.Tests.csproj", "{4F8C2A91-6B17-4E3D-9C55-1A0E7D2B84F6}"
 EndProject
 Global
@@ -67,10 +65,6 @@ Global
 		{49074843-286C-4B69-9E15-75D1174B925C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49074843-286C-4B69-9E15-75D1174B925C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49074843-286C-4B69-9E15-75D1174B925C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0654AD70-F0F9-4B9B-8DD4-11A8A5728C66}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4F8C2A91-6B17-4E3D-9C55-1A0E7D2B84F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4F8C2A91-6B17-4E3D-9C55-1A0E7D2B84F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F8C2A91-6B17-4E3D-9C55-1A0E7D2B84F6}.Release|Any CPU.ActiveCfg = Release|Any CPU

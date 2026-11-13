@@ -33,6 +33,7 @@ namespace Vectarr.Palooza.DataAccess.Repositories
                 PhoneNumber = entity.PhoneNumber,
                 IsEmailSubscribed = entity.IsEmailSubscribed,
                 TaxRate = entity.TaxRate,
+                IsVectarrAdmin = entity.IsVectarrAdmin,
 
             };
         }
@@ -46,6 +47,7 @@ namespace Vectarr.Palooza.DataAccess.Repositories
             entity.LastName = model.LastName;
             entity.TaxRate = model.TaxRate;
             entity.IsEmailSubscribed = model.IsEmailSubscribed;
+            // NOTE: IsVectarrAdmin is intentionally NOT mapped from the model (users must not be able to grant themselves admin).
             entity.Address = model.Address != null && model.Address.Id != 0 ?
                            _unitOfWork.Repositories.AddressRepository.ModelToEntity(model.Address, _unitOfWork.Repositories.AddressRepository.GetEntityById(model.Address.Id)) :
                             null;

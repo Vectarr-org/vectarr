@@ -31,7 +31,7 @@ namespace Vectarr.Palooza.WebApi.Controllers
             return Ok(new { message = "Blog generation job enqueued." });
         }
 
-        [HttpGet("Get")]
+        [HttpGet("List")]
         [AllowAnonymous]
         public override ListViewModel<BlogModel> Get(int pageNumber = 1, int countPerPage = 10, string? orderBy = null, string? sort = null)
         {
@@ -41,7 +41,7 @@ namespace Vectarr.Palooza.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetItem")]
+        [Route("Get")]
         [AllowAnonymous]
         public override ItemViewModel<BlogModel> GetItem(int id)
         {

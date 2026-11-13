@@ -18,11 +18,11 @@ using Vectarr.Palooza.ApiBusiness.Services.ImageServices;
 using Microsoft.OpenApi.Models;
 using Vectarr.Palooza.ApiBusiness.Emailing;
 using Microsoft.Extensions.Configuration;
-using Vectarr.Palooza.Digifabster.Classes;
-using Vectarr.Palooza.Digifabster;
 using Hangfire;
 using Hangfire.PostgreSql;
 using Vectarr.Palooza.ApiBusiness.Services.BlogServices;
+using Vectarr.Palooza.ApiBusiness.Services.QuoteRequestServices;
+using Vectarr.Palooza.ApiBusiness.Services.BillingServices;
 
 namespace Vectarr.Palooza.WebApi
 {
@@ -94,7 +94,17 @@ namespace Vectarr.Palooza.WebApi
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IFileManager, LocalStorageManager>();
             services.AddScoped<IImageManager, ImageManager>();
+            services.AddScoped<IVectarrAdminService, VectarrAdminService>();
             services.AddScoped<UserAuthenticationServices>();
+
+            // Stripe: shared client/config and the signed in user's customer + saved cards
+            services.AddScoped<StripeGateway>();
+            services.AddScoped<StripeCustomerServices>();
+
+            // Instant quote requests (in-house Instant Quote tool + Stripe Payment Element)
+            services.AddScoped<QuoteRequestNotificationServices>();
+            services.AddScoped<QuoteRequestServices>();
+            services.AddScoped<QuoteRequestPaymentServices>();
 
             services.AddDefaultIdentity<UserAccount>(options => options.SignIn.RequireConfirmedAccount = false)
              .AddRoles<Model.IdentityRole>()  // <-- Add this line to enable role support
@@ -109,31 +119,10 @@ namespace Vectarr.Palooza.WebApi
                     {
                         builder.AllowAnyOrigin()
                                .AllowAnyHeader()
-                               .AllowAnyMethod();
+                               .AllowAnyMethod()
+                               .WithExposedHeaders("Content-Disposition");
                     });
             });
-
-            services.Configure<DigifabsterOptions>(Configuration.GetSection("Digifabster"));
-
-            var digifabsterBaseUrl = Configuration["Digifabster:BaseUrl"]!.TrimEnd('/');
-
-            services.AddHttpClient<IDigifabsterAuthProvider, DigifabsterAuthProvider>(client =>
-            {
-                client.BaseAddress = new Uri(digifabsterBaseUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            });
-
-            services.AddHttpClient<IDigifabsterService, DigifabsterService>(client =>
-            {
-                client.BaseAddress = new Uri(digifabsterBaseUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            });
-
-            services.AddScoped<VectarrClientService>();
 
             // Hangfire
             services.AddHangfire(config => config

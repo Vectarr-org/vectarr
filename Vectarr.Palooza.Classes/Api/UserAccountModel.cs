@@ -16,6 +16,5 @@ namespace Vectarr.Palooza.Classes.Api
         public string? ReferralCode { get; set; }
         public int? CreatorId { get; set; }
         public int? WorkshopId { get; set; }
-        public string? DigifabsterId { get; set; }
     }
 }

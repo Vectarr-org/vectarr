@@ -13,6 +13,8 @@
     <None Remove="Emailing\EmailTemplates\ForgotPassword.html" />
     <None Remove="Emailing\EmailTemplates\Header.html" />
     <None Remove="Emailing\EmailTemplates\PartnerRequest.html" />
+    <None Remove="Emailing\EmailTemplates\QuoteRequestPaidAdmin.html" />
+    <None Remove="Emailing\EmailTemplates\QuoteRequestReceipt.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,20 +24,23 @@
     <EmbeddedResource Include="Emailing\EmailTemplates\ForgotPassword.html" />
     <EmbeddedResource Include="Emailing\EmailTemplates\Header.html" />
     <EmbeddedResource Include="Emailing\EmailTemplates\PartnerRequest.html" />
+    <EmbeddedResource Include="Emailing\EmailTemplates\QuoteRequestPaidAdmin.html" />
+    <EmbeddedResource Include="Emailing\EmailTemplates\QuoteRequestReceipt.html" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.14.0" />
     <PackageReference Include="OpenAI" Version="2.2.0-beta.4" />
+    <PackageReference Include="Stripe.net" Version="50.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Vectarr.Palooza.Classes\Vectarr.Palooza.Classes.csproj" />
     <ProjectReference Include="..\Vectarr.Palooza.DataAccess\Vectarr.Palooza.DataAccess.csproj" />
-    <ProjectReference Include="..\Vectarr.Palooza.Digifabster\Vectarr.Palooza.Digifabster.csproj" />
     <ProjectReference Include="..\Vectarr.Palooza.Exceptions\Vectarr.Palooza.Exceptions.csproj" />
   </ItemGroup>
 

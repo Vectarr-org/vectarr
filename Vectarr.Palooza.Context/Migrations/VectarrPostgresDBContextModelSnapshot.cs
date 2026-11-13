@@ -628,6 +628,9 @@ namespace Vectarr.Palooza.Context.Migrations
                     b.Property<bool>("IsRemoved")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsVectarrAdmin")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
@@ -842,6 +845,218 @@ namespace Vectarr.Palooza.Context.Migrations
                     b.ToTable("Job.QualityCheckRequests");
                 });
 
+            modelBuilder.Entity("Vectarr.Palooza.Model.QuoteRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccessToken")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<string>("AdminNotes")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("AmountDue")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("numeric(12,2)");
+
+                    b.Property<decimal?>("AmountPaid")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("numeric(12,2)");
+
+                    b.Property<int?>("AssemblyPartCount")
+                        .HasColumnType("integer");
+
+                    b.Property<double?>("BboxXmm")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("BboxYmm")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("BboxZmm")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("BuyerNotes")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("CadFileId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CadFileName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Company")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContactEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContactName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)");
+
+                    b.Property<int?>("DrawingFileId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("DrawingFileName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FinishId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FinishName")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("IdentityId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("InspectionDocs")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsAssembly")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsHidden")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("JobId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("LeadDays")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MaterialId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MaterialName")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("PaidAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("PartName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PartNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProcessId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProcessName")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("QuoteSnapshotJson")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ReferenceNumber")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("Revision")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ShipByDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ShippingCity")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ShippingCountry")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ShippingPostalCode")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ShippingState")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ShippingStreet1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ShippingStreet2")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceFormat")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SpeedId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SpeedLabel")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("StripeCheckoutSessionId")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("StripePaymentIntentId")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("ToleranceId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ToleranceLabel")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("numeric(12,2)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("numeric(12,2)");
+
+                    b.Property<double?>("VolumeMm3")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CadFileId");
+
+                    b.HasIndex("DrawingFileId");
+
+                    b.HasIndex("IdentityId");
+
+                    b.HasIndex("JobId");
+
+                    b.HasIndex("ReferenceNumber")
+                        .IsUnique();
+
+                    b.ToTable("Quote.QuoteRequests");
+                });
+
             modelBuilder.Entity("Vectarr.Palooza.Model.QuoteRevision", b =>
                 {
                     b.Property<int>("Id")
@@ -956,9 +1171,6 @@ namespace Vectarr.Palooza.Context.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("DigifabsterId")
-                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -1809,6 +2021,37 @@ namespace Vectarr.Palooza.Context.Migrations
                         .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Job");
+                });
+
+            modelBuilder.Entity("Vectarr.Palooza.Model.QuoteRequest", b =>
+                {
+                    b.HasOne("Vectarr.Palooza.Model.Image", "CadFile")
+                        .WithMany()
+                        .HasForeignKey("CadFileId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Vectarr.Palooza.Model.Image", "DrawingFile")
+                        .WithMany()
+                        .HasForeignKey("DrawingFileId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Vectarr.Palooza.Model.Identity", "Identity")
+                        .WithMany()
+                        .HasForeignKey("IdentityId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Vectarr.Palooza.Model.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("CadFile");
+
+                    b.Navigation("DrawingFile");
+
+                    b.Navigation("Identity");
 
                     b.Navigation("Job");
                 });

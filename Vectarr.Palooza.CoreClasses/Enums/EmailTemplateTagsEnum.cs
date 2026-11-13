@@ -39,6 +39,14 @@
         ContactName,
         PhoneNumber,
         ManufacturingCapabilities,
-        AboutYourShop
+        AboutYourShop,
+        ReferenceNumber,
+        PartName,
+        PartNumber,
+        Quantity,
+        MaterialName,
+        ProcessName,
+        AmountPaid,
+        AdminLink
     }
 }

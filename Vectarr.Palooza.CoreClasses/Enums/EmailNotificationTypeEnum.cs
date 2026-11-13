@@ -9,6 +9,8 @@
         PreOrderConfirmation,
         ReferralCoupon,
         PreOrderThankYou,
-        ParnerRequest
+        ParnerRequest,
+        QuoteRequestPaidAdmin,
+        QuoteRequestReceipt
     }
 }

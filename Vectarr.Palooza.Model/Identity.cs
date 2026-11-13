@@ -16,5 +16,11 @@ namespace Vectarr.Palooza.Model
         public int? Age { get; set; }
         public bool IsEmailSubscribed { get; set; }
         public decimal? TaxRate { get; set; }
+
+        /// <summary>
+        /// Grants access to the Vectarr admin area (e.g. all instant quote requests).
+        /// Only settable directly in the database; never copied from API models.
+        /// </summary>
+        public bool IsVectarrAdmin { get; set; }
     }
 }

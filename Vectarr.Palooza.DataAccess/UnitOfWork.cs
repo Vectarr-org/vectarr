@@ -107,13 +107,18 @@ namespace Vectarr.Palooza.DataAccess
 
         public VectarrPostgresDBContext CreateDbContext()
         {
+            // Mirror the host: secrets live in the git-ignored appsettings.{Environment}.json.
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+                ?? Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
+                ?? "Production";
             IConfiguration configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json").Build();
+            .AddJsonFile("appsettings.json")
+            .AddJsonFile($"appsettings.{environment}.json", optional: true).Build();
 
             var builder = new DbContextOptionsBuilder<VectarrPostgresDBContext>();
             var connectionString =
-                configuration.GetConnectionString("ProdDefaultConnection");
+                configuration.GetConnectionString("LocalDefaultConnection");
             builder.UseNpgsql(connectionString);
 
             return new VectarrPostgresDBContext(builder.Options);

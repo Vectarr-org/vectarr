@@ -27,10 +27,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Local-only settings (test keys); production secrets ship in the git-ignored appsettings.Production.json. -->
+    <Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Vectarr.Palooza.ApiBusiness\Vectarr.Palooza.ApiBusiness.csproj" />
     <ProjectReference Include="..\Vectarr.Palooza.Classes\Vectarr.Palooza.Classes.csproj" />
     <ProjectReference Include="..\Vectarr.Palooza.DataAccess\Vectarr.Palooza.DataAccess.csproj" />
-    <ProjectReference Include="..\Vectarr.Palooza.Digifabster\Vectarr.Palooza.Digifabster.csproj" />
     <ProjectReference Include="..\Vectarr.Palooza.Exceptions\Vectarr.Palooza.Exceptions.csproj" />
   </ItemGroup>
 

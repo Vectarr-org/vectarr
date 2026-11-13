@@ -35,6 +35,7 @@ namespace Vectarr.Palooza.DataAccess.Repositories
             BlogRepository = new BlogRepository(unitOfWork);
             BlogSectionRepository = new BlogSectionRepository(unitOfWork);
             BlogKeywordRepository = new BlogKeywordRepository(unitOfWork);
+            QuoteRequestRepository = new QuoteRequestRepository(unitOfWork);
         }
         public IUserAccountRepository UserAccountRepository { get; }
         public IAppRepository ApplicationRepository { get; }
@@ -63,5 +64,6 @@ namespace Vectarr.Palooza.DataAccess.Repositories
         public IBlogRepository BlogRepository { get; }
         public IBlogSectionRepository BlogSectionRepository { get; }
         public IBlogKeywordRepository BlogKeywordRepository { get; }
+        public IQuoteRequestRepository QuoteRequestRepository { get; }
     }
 }

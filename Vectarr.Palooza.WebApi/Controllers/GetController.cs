@@ -15,14 +15,14 @@ namespace Vectarr.Palooza.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetItem")]
+        [Route("Get")]
         public virtual ItemViewModel<T> GetItem(int id)
         {
             return GetItemInternal(GetOnlyManager(), id);
         }
 
         [HttpGet]
-        [Route("GetItems")]
+        [Route("BatchGet")]
         public virtual List<T> GetItems(string ids)
         {
             var idList = ids.Split(",").Select(int.Parse).ToList();
@@ -41,26 +41,11 @@ namespace Vectarr.Palooza.WebApi.Controllers
         {
             int count;
             var data = manager.Get(pageNumber, countPerPage, orderBy, descending, out count, filters);
-            var hasData = manager.AnyData(filters);
-            var filtersDictionary = filters?.Select(e => e.SourceKeyValuePair).ToList();
-            return new ListViewModel<TModel>(data, count)
-            {
-                HasData = hasData,
-                SearchInfo = new SearchInfo
-                {
-                    FilterQueryString = filtersDictionary,
-                    OrderBy = orderBy,
-                    OrderByDescending = descending,
-                    CountPerPage = countPerPage,
-                    ReturnedIds = data.Select(e => e.Id).ToList(),
-                    Page = pageNumber,
-                    TotalPages = (int)Math.Ceiling((decimal)count / countPerPage)
-                }
-            };
+            return new ListViewModel<TModel>(data, count);
         }
 
         [HttpGet]
-        [Route("Get")]
+        [Route("List")]
         public virtual ListViewModel<T> Get(int pageNumber = 1, int countPerPage = 10, string? orderBy = null, string? sort = null)
         {
             var filters = GetFilters();

@@ -17,11 +17,6 @@ namespace Vectarr.Palooza.ApiBusiness.Services
             GetOnlyRepository = getOnlyRepository;
         }
 
-        public virtual bool AnyData(List<Filter> filters)
-        {
-            return GetOnlyRepository.AnyData(filters);
-        }
-
         public virtual List<T> Get(int pageNumber, int countPerPage, string orderBy, bool orderByDescending, out int totalCount, List<Filter> filters, bool loadExtendedData = true, bool skipApplicationCheck = false)
         {
             var data = GetOnlyRepository.GetAll(pageNumber, countPerPage, out totalCount, filters, orderBy, orderByDescending, skipApplicationCheck);

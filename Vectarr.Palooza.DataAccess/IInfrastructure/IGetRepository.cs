@@ -7,7 +7,6 @@ namespace Vectarr.Palooza.DataAccess.IInfrastructure
     {
         TModel GetById(int id, bool skipApplicationCheck = false);
         List<TModel> GetModelsByIds(List<int> idList);
-        bool AnyData(List<Filter> filters = null);
         List<TModel> GetAll(bool skipApplicationCheck = false);
         List<TModel> GetAll(int pageNumber, int countPerPage, out int totalCount, List<Filter> filters = null, string orderBy = null, bool orderByDescending = false, bool skipApplicationCheck = false);
     }

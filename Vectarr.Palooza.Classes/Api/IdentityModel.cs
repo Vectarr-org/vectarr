@@ -16,6 +16,12 @@ namespace Vectarr.Palooza.Classes.Api
         public string? referralCode { get; set; }
         public bool IsEmailSubscribed { get; set; }
         public decimal? TaxRate { get; set; }
+
+        /// <summary>
+        /// Read-only flag (entity -> model only). IdentityRepository never maps it back to the entity,
+        /// so it cannot be changed through Identity/Save.
+        /// </summary>
+        public bool IsVectarrAdmin { get; set; }
         public string DisplayName
         {
             get

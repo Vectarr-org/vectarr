@@ -17,8 +17,6 @@ using Vectarr.Palooza.ApiBusiness.IServices;
 using Vectarr.Palooza.ApiBusiness.Emailing.EmailTemplates.TemplateClasses;
 using Vectarr.Palooza.ApiBusiness.IServices.IUserServices;
 using Vectarr.Palooza.ApiBusiness.Emailing.BaseEmailTemplating;
-using Vectarr.Palooza.Digifabster;
-using Vectarr.Palooza.Digifabster.Classes;
 
 namespace Vectarr.Palooza.ApiBusiness.Services.UserServices
 {
@@ -30,11 +28,11 @@ namespace Vectarr.Palooza.ApiBusiness.Services.UserServices
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
-        private readonly IDigifabsterService _digifabsterService;
+        private readonly IVectarrAdminService _vectarrAdminService;
 
         public UserAuthenticationServices(UserManager<UserAccount> userManager,
             SignInManager<UserAccount> signInManager, IJwtTokenService jwtTokenService,
-            IUnitOfWork unitOfWork, IEmailSender emailSender, IConfiguration configuration, IDigifabsterService digifabsterService)
+            IUnitOfWork unitOfWork, IEmailSender emailSender, IConfiguration configuration, IVectarrAdminService vectarrAdminService)
         {
             _userManager = userManager;
             _jwtTokenService = jwtTokenService;
@@ -42,7 +40,7 @@ namespace Vectarr.Palooza.ApiBusiness.Services.UserServices
             _unitOfWork = unitOfWork;
             _emailSender = emailSender;
             _configuration = configuration;
-            _digifabsterService = digifabsterService;
+            _vectarrAdminService = vectarrAdminService;
         }
 
         public string GenerateReferralCode(string email)
@@ -67,26 +65,6 @@ namespace Vectarr.Palooza.ApiBusiness.Services.UserServices
                 throw new ErrorValidationException("An account with a matching email already exists!");
             }
 
-            // Verify Digifabster FIRST for creators before creating the local account
-            var digifabsterResult = new DigifabsterResult<RegisterClientResponse>();
-            if (user.IsCreator)
-            {
-                digifabsterResult = await _digifabsterService.RegisterClientAsync(new RegisterClientRequest
-                {
-                    Email = user.EmailAddress,
-                    Password = user.Password,
-                    SilentLoginEnabled = true,
-                    SendNotification = false,   
-                    Surname = user.LastName ?? "",
-                    Name = user.FirstName ?? ""
-                });
-
-                if (!digifabsterResult.IsSuccess)
-                {
-                    throw new ErrorValidationException(digifabsterResult.ErrorMessage);
-                }
-            }
-
             var referral = _unitOfWork.Repositories.UserAccountRepository.GetByReferralCode(referralCode);
             var newUser = new UserAccount()
             {
@@ -107,8 +85,7 @@ namespace Vectarr.Palooza.ApiBusiness.Services.UserServices
                 Application = new Application()
                 {
 
-                },
-                DigifabsterId = user.IsCreator && digifabsterResult?.Data?.Id != null ? digifabsterResult.Data.Id.Value.ToString() : null
+                }
             };
 
             if (user.IsCreator)
@@ -385,7 +362,8 @@ namespace Vectarr.Palooza.ApiBusiness.Services.UserServices
                     Role = _unitOfWork.Role,
                     Workshop = _unitOfWork.Role == RolesEnum.Workshop ? _unitOfWork.Workshop : null,
                     Creator = _unitOfWork.Role == RolesEnum.Creator ? _unitOfWork.Creator : null,
-                    IsAdmin = true
+                    IsAdmin = true,
+                    IsVectarrAdmin = _vectarrAdminService.IsCurrentUserVectarrAdmin()
                 };
             }
 

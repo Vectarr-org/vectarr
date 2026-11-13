@@ -28,8 +28,16 @@ namespace Vectarr.Palooza.WebApi.Controllers
 
         [HttpGet]
         [Route("AuthInfo")]
-        public AuthenticationInfo AuthInfo()
+        public ActionResult<AuthenticationInfo> AuthInfo()
         {
+            // Valid token but no matching account in this database (e.g. a token issued by another
+            // environment sharing the JWT secret): answer 401 so the app signs out instead of
+            // rendering an empty, role-less session.
+            if (_unitOfWork.CurrentUser == null)
+            {
+                return Unauthorized();
+            }
+
             return _userAuthenticationServices.GetAuthenticationInfo();
         }
 
