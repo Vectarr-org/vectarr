@@ -11,28 +11,29 @@ namespace Vectarr.Palooza.Tests
         [InlineData("0", "10")]
         [InlineData("1", "10")]
         [InlineData("999.99", "10")]
-        [InlineData("1000", "10")]
+        [InlineData("1000", "9")]
         [InlineData("1000.01", "9")]
-        [InlineData("5000", "9")]
+        [InlineData("4999.99", "9")]
+        [InlineData("5000", "8")]
         [InlineData("5000.01", "8")]
-        [InlineData("10000", "8")]
-        [InlineData("10000.01", "7")]
-        [InlineData("20000", "7")]
-        [InlineData("20000.01", "6")]
-        [InlineData("30000", "6")]
-        [InlineData("30000.01", "5")]
-        [InlineData("40000", "5")]
-        [InlineData("40000.01", "4")]
-        [InlineData("50000", "4")]
-        [InlineData("50000.01", "3")]
-        [InlineData("100000", "3")]
-        [InlineData("100000.01", "2")]
+        [InlineData("9999.99", "8")]
+        [InlineData("10000", "7")]
+        [InlineData("19999.99", "7")]
+        [InlineData("20000", "6")]
+        [InlineData("29999.99", "6")]
+        [InlineData("30000", "5")]
+        [InlineData("39999.99", "5")]
+        [InlineData("40000", "4")]
+        [InlineData("49999.99", "4")]
+        [InlineData("50000", "3")]
+        [InlineData("99999.99", "3")]
+        [InlineData("100000", "2")]
         [InlineData("200000", "2")]
         [InlineData("499999.99", "2")]
-        [InlineData("500000", "2")]
+        [InlineData("500000", "1")]
         [InlineData("500000.01", "1")]
         [InlineData("1000000", "1")]
-        public void PercentFollowsInclusiveUpperBounds(string priceText, string percentText)
+        public void PercentFollowsHalfOpenBounds(string priceText, string percentText)
         {
             var price = decimal.Parse(priceText, CultureInfo.InvariantCulture);
             var percent = decimal.Parse(percentText, CultureInfo.InvariantCulture);
@@ -74,17 +75,17 @@ namespace Vectarr.Palooza.Tests
             var configured = new List<ShopPlatformFeeTier>();
             foreach (var tier in root.GetProperty("ShopPlatformFee").GetProperty("Tiers").EnumerateArray())
             {
-                decimal? upTo = tier.GetProperty("UpTo").ValueKind == JsonValueKind.Null
+                decimal? maxExclusive = tier.GetProperty("MaxExclusive").ValueKind == JsonValueKind.Null
                     ? null
-                    : tier.GetProperty("UpTo").GetDecimal();
+                    : tier.GetProperty("MaxExclusive").GetDecimal();
                 configured.Add(new ShopPlatformFeeTier
                 {
-                    UpTo = upTo,
+                    MaxExclusive = maxExclusive,
                     Percent = tier.GetProperty("Percent").GetDecimal()
                 });
             }
 
-            foreach (var price in new decimal[] { 0m, 1000m, 1000.01m, 50000m, 100000m, 200000m, 500000m, 500000.01m })
+            foreach (var price in new decimal[] { 0m, 999.99m, 1000m, 5000m, 50000m, 100000m, 200000m, 499999.99m, 500000m, 500000.01m })
             {
                 Assert.Equal(
                     ShopPlatformFeeCalculator.Calculate(price).Percent,
