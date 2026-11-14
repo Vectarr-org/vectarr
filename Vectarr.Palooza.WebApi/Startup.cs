@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Vectarr.Palooza.Context;
 using Vectarr.Palooza.DataAccess;
 using Vectarr.Palooza.Classes.Api;
+using Vectarr.Palooza.Classes.Fees;
 using Vectarr.Palooza.Exceptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -100,6 +101,9 @@ namespace Vectarr.Palooza.WebApi
             // Stripe: shared client/config and the signed in user's customer + saved cards
             services.AddScoped<StripeGateway>();
             services.AddScoped<StripeCustomerServices>();
+
+            // Shop platform fee tiers. Not wired to a charge yet; see ShopPlatformFeeCalculator.
+            services.Configure<ShopPlatformFeeOptions>(Configuration.GetSection(ShopPlatformFeeOptions.SectionName));
 
             // Instant quote requests (in-house Instant Quote tool + Stripe Payment Element)
             services.AddScoped<QuoteRequestNotificationServices>();

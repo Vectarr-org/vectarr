@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.WebApiCompatShim;
+using Microsoft.Extensions.DependencyInjection;
+using Vectarr.Palooza.ApiBusiness.IServices.IUserServices;
 using Vectarr.Palooza.Classes.Filtering;
 using Vectarr.Palooza.DataAccess;
 using System.Security.Claims;
@@ -22,6 +24,11 @@ namespace Vectarr.Palooza.WebApi.Controllers
             {
                 var email = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
                 unitOfWork.SetEmail(email);
+                var adminService = httpContextAccessor.HttpContext?.RequestServices.GetService<IVectarrAdminService>();
+                if (adminService?.IsCurrentUserVectarrAdmin() == true)
+                {
+                    unitOfWork.SetMarketplaceAdminVisibility(true);
+                }
             }
         }
 

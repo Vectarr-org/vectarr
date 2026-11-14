@@ -28,6 +28,7 @@ namespace Vectarr.Palooza.DataAccess.Repositories
 
         protected override Address ModelToEntityInternal(AddressModel model, Address entity)
         {
+            // Full street and ZIP are stored for tax and shipping. Responses redact them separately.
             entity.Street1 = model.Street1;
             entity.Street2 = model.Street2;
             entity.City = model.City;

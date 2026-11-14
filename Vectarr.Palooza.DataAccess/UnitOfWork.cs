@@ -27,6 +27,14 @@ namespace Vectarr.Palooza.DataAccess
         private readonly RoleManager<Model.IdentityRole> _roleManager;
         private readonly UserManager<Model.UserAccount> _userManager;
         public RolesEnum Role { get; protected set; }
+        public bool RoleWasResolved { get; private set; }
+        public bool HasMarketplaceAdminVisibility { get; private set; }
+        public int? WorkshopIdBeingLoaded { get; private set; }
+
+        public void SetMarketplaceAdminVisibility(bool isAdmin)
+        {
+            HasMarketplaceAdminVisibility = isAdmin;
+        }
 
         public UnitOfWork(VectarrPostgresDBContext context, RoleManager<Model.IdentityRole> roleManager, UserManager<Model.UserAccount> userManager)
         {
@@ -59,7 +67,11 @@ namespace Vectarr.Palooza.DataAccess
                         if (_roleManager != null)
                         {
                             role = _roleManager.FindByNameAsync(roleName).Result;
-                            Role = role.Role;
+                            if (role != null)
+                            {
+                                Role = role.Role;
+                                RoleWasResolved = true;
+                            }
                         }
                     }
                 }
@@ -72,7 +84,15 @@ namespace Vectarr.Palooza.DataAccess
 
                 if (role != null && role.Role == RolesEnum.Workshop && userModel.WorkshopId.HasValue)
                 {
-                    Workshop = Repositories.WorkshopRepository.GetById(userModel.WorkshopId.Value, skipApplicationCheck: true);
+                    WorkshopIdBeingLoaded = userModel.WorkshopId;
+                    try
+                    {
+                        Workshop = Repositories.WorkshopRepository.GetById(userModel.WorkshopId.Value, skipApplicationCheck: true);
+                    }
+                    finally
+                    {
+                        WorkshopIdBeingLoaded = null;
+                    }
                 }
                 else if (role != null && role.Role == RolesEnum.Creator && userModel.CreatorId.HasValue)
                 {

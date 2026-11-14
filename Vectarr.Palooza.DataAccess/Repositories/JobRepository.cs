@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Vectarr.Palooza.DataAccess.IInfrastructure;
 using Vectarr.Palooza.DataAccess.Infrastructure;
 using Vectarr.Palooza.DataAccess.IRepositories;
+using Vectarr.Palooza.Classes.Privacy;
 using Vectarr.Palooza.CoreClasses.Enums;
+using Vectarr.Palooza.DataAccess;
 
 namespace Vectarr.Palooza.DataAccess.Repositories
 {
@@ -51,6 +53,7 @@ namespace Vectarr.Palooza.DataAccess.Repositories
                 Title = entity.Title,
                 Description = entity.Description,
                 WorkOrderId = entity.WorkOrder != null ? entity.WorkOrder.Id : null,
+                AwardedWorkshopId = entity.WorkOrder != null ? (int?)entity.WorkOrder.WorkshopId : null,
                 RequireQcConfirmation = entity.RequireQcConfirmation,
                 QCPercentage = entity.QCPrecentage,
                 AutoAcceptQcReport = entity.AutoAcceptQcReport
@@ -130,13 +133,25 @@ namespace Vectarr.Palooza.DataAccess.Repositories
                 .Select(s => s.Capability)
                 .ToList();
 
-            return GetEntitiesQueryable(skipApplicationCheck: true)
+            var jobs = GetEntitiesQueryable(skipApplicationCheck: true)
                 .Where(w => w.Status == JobStatusEnum.Published
                 && !w.IsRemoved && !w.ManualPricing
                 && capabilityValues != null
                 && capabilityValues.Contains(w.ManufacturingType) && w.Bids.Count == 0).OrderByDescending(w => w.CreatedDate)
                 .Select(GetEntityToModelExpression())
                 .ToList();
+
+            foreach (var job in jobs)
+            {
+                ApplyMarketplacePrivacy(job);
+            }
+
+            return jobs;
+        }
+
+        protected override void ApplyMarketplacePrivacy(JobModel model)
+        {
+            MarketplacePrivacy.Apply(model, MarketplaceViewerContext.Current(UnitOfWork));
         }
 
     }

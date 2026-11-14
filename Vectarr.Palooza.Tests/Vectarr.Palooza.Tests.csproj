@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Vectarr.Palooza.Classes\Vectarr.Palooza.Classes.csproj" />
     <ProjectReference Include="..\Vectarr.Palooza.CoreClasses\Vectarr.Palooza.CoreClasses.csproj" />
   </ItemGroup>
 

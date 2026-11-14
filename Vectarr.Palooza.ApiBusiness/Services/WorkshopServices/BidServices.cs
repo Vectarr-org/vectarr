@@ -16,6 +16,11 @@ namespace Vectarr.Palooza.ApiBusiness.Services.WorkshopServices
         {
             var bid = _unitOfWork.Repositories.BidRepository.GetById(bidId);
 
+            // Shop platform fee is not charged or stored yet. When payout is added, call
+            // ShopPlatformFeeCalculator.Calculate on the accepted order price (bid.Amount, or
+            // WorkOrder.CurrentPrice once that field is maintained). Tiers are in ShopPlatformFee
+            // appsettings. Do not use InstantQuote:InitialFeePercent; that is the buyer's deposit.
+
             var workOrder = new WorkOrderModel()
             {
                 JobId = bid.Job.Id,

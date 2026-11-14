@@ -33,7 +33,7 @@ namespace Vectarr.Palooza.ApiBusiness.Services
         public List<T> GetItems(List<int> ids, bool loadExtendedData = true)
         {
             var items = GetOnlyRepository.GetModelsByIds(ids);
-            return items;
+            return loadExtendedData ? LoadAdditionalInfo(items) : items;
         }
 
         protected virtual List<T> LoadAdditionalInfo(List<T> data)

@@ -223,6 +223,7 @@ namespace Vectarr.Palooza.ApiBusiness.Services.QuoteRequestServices
                 Company = Clean(payload.Company, 200, "Company", errors),
                 Phone = Clean(payload.Phone, 64, "Phone", errors),
 
+                // Checkout keeps the buyer's full ship-to for tax and shipping. Shops do not read this record.
                 ShippingStreet1 = Clean(payload.ShippingStreet1, 200, "Shipping street", errors),
                 ShippingStreet2 = Clean(payload.ShippingStreet2, 200, "Shipping street (line 2)", errors),
                 ShippingCity = Clean(payload.ShippingCity, 100, "Shipping city", errors),
