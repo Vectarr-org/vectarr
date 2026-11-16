@@ -1,7 +1,9 @@
 ﻿using System.Linq.Expressions;
 using Vectarr.Palooza.Classes.Api;
 using Vectarr.Palooza.Classes.Filtering;
+using Vectarr.Palooza.Classes.Privacy;
 using Vectarr.Palooza.CoreClasses.Enums;
+using Vectarr.Palooza.DataAccess;
 using Vectarr.Palooza.DataAccess.IInfrastructure;
 using Vectarr.Palooza.DataAccess.Infrastructure;
 using Vectarr.Palooza.DataAccess.IRepositories;
@@ -32,6 +34,8 @@ namespace Vectarr.Palooza.DataAccess.Repositories
                 Status = entity.Status,
                 Notes = entity.Notes,
                 Job = new JobModel() { Id = entity.Job.Id, ManufacturingType = entity.Job.ManufacturingType, Quantity = entity.Job.Quantity, Title = entity.Job.Title , Description = entity.Job.Description },
+                // Id and name only. Phone, email, street, and ZIP are not projected; workshop
+                // profile responses add city and state and MarketplacePrivacy strips the rest for buyers.
                 Workshop = new WorkshopModel() { Id = entity.Workshop.Id, Name = entity.Workshop.Name },
                 DateCreated = entity.CreatedDate,
                 Shipping = entity.Shipping,
@@ -63,6 +67,11 @@ namespace Vectarr.Palooza.DataAccess.Repositories
             entity.Taxes = model.Taxes;
             entity.Tarrifs = model.Tarrifs;
             return entity;
+        }
+
+        protected override void ApplyMarketplacePrivacy(BidModel model)
+        {
+            MarketplacePrivacy.Apply(model, MarketplaceViewerContext.Current(UnitOfWork));
         }
     }
 }

@@ -17,6 +17,7 @@ using Vectarr.Palooza.ApiBusiness.IServices;
 using Vectarr.Palooza.ApiBusiness.Emailing.EmailTemplates.TemplateClasses;
 using Vectarr.Palooza.ApiBusiness.IServices.IUserServices;
 using Vectarr.Palooza.ApiBusiness.Emailing.BaseEmailTemplating;
+using Vectarr.Palooza.Classes.Privacy;
 
 namespace Vectarr.Palooza.ApiBusiness.Services.UserServices
 {
@@ -97,21 +98,23 @@ namespace Vectarr.Palooza.ApiBusiness.Services.UserServices
             }
             else if (user.IsWorkshop)
             {
+                var workshop = user.Workshop!;
+                var address = workshop.Address!;
                 newUser.Workshop = new Workshop()
                 {
-                    Name = user.Workshop.Name,
-                    CompanyName = user.Workshop.CompanyName,
+                    Name = workshop.Name,
+                    CompanyName = workshop.CompanyName,
                     Email = user.EmailAddress,
                     Address = new Address()
                     {
-                        Country = user.Workshop.Address.Country,
-                        City = user.Workshop.Address.City,
-                        State = user.Workshop.Address.State,
-                        Street1 = user.Workshop.Address.Street1,
-                        Street2 = user.Workshop.Address.Street2,
-                        PostalCode = user.Workshop.Address.PostalCode
+                        Country = address.Country,
+                        City = address.City?.Trim(),
+                        State = address.State?.Trim(),
+                        Street1 = BlankToNull(address.Street1),
+                        Street2 = BlankToNull(address.Street2),
+                        PostalCode = address.PostalCode?.Trim()
                     },
-                    PhoneNumber = user.Workshop.PhoneNumber,
+                    PhoneNumber = workshop.PhoneNumber!.Trim(),
                 };
             }
 
@@ -195,6 +198,18 @@ namespace Vectarr.Palooza.ApiBusiness.Services.UserServices
             if (string.IsNullOrEmpty(user.Password) && !user.IsExternal)
             {
                 errors.Add("Password is required.");
+            }
+
+            if (user.IsWorkshop)
+            {
+                if (user.Workshop == null)
+                {
+                    errors.Add("Workshop profile is required.");
+                }
+                else
+                {
+                    errors.AddRange(WorkshopLocationRules.Validate(user.Workshop.Address, user.Workshop.PhoneNumber));
+                }
             }
 
             if (errors.Any())
@@ -323,6 +338,11 @@ namespace Vectarr.Palooza.ApiBusiness.Services.UserServices
         private static bool IsValid(string email)
         {
             return EmailAddressValidator.IsValid(email);
+        }
+
+        private static string? BlankToNull(string? value)
+        {
+            return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
         }
 
         public async Task<AuthenticationResult> ResetPassword(string email, string code, string newPassword)

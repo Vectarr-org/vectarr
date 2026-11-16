@@ -33,8 +33,7 @@ namespace Vectarr.Palooza.DataAccess.Infrastructure
             filters?.ForEach(filter => query = Filter(query, filter));
 
             query = ApplyPaging(query, pageNumber, countPerPage, out totalCount, orderBy, orderByDescending);
-            var result = query.Select(GetEntityToModelExpression().Expand()).ToList();
-            return result;
+            return Materialize(query);
         }
 
         public IQueryable<TEntity> ApplyPaging(IQueryable<TEntity> query, int pageNumber, int countPerPage, out int totalCount,
@@ -65,8 +64,7 @@ namespace Vectarr.Palooza.DataAccess.Infrastructure
         public List<TModel> GetAll(bool skipHidden = false, bool skipApplicationCheck = false)
         {
             var query = GetEntitiesQueryable(skipApplicationCheck: skipApplicationCheck).AsNoTracking();
-            var result = query.Select(GetEntityToModelExpression().Expand()).ToList();
-            return result;
+            return Materialize(query);
         }
 
         protected virtual Expression<Func<TEntity, int>> GetDefaultOrderByProperty()
@@ -110,8 +108,7 @@ namespace Vectarr.Palooza.DataAccess.Infrastructure
         public List<TModel> GetAll(bool skipApplicationCheck = false)
         {
             var query = GetEntitiesQueryable(skipApplicationCheck: skipApplicationCheck).AsNoTracking();
-            var result = query.Select(GetEntityToModelExpression().Expand()).ToList();
-            return result;
+            return Materialize(query);
         }
 
         public IQueryable<TEntity> GetEntitiesQueryable(bool includeRemoved = false, bool skipApplicationCheck = false)
@@ -209,8 +206,38 @@ namespace Vectarr.Palooza.DataAccess.Infrastructure
                 .Select(GetEntityToModelExpression().Expand())
                 .FirstOrDefault();
 
+            if (model != null)
+            {
+                ApplyMarketplacePrivacy(model);
+            }
 
             return model;
+        }
+
+        /// <summary>
+        /// Response shaping after a model is loaded. Must not write back to the entity.
+        /// </summary>
+        protected virtual void ApplyMarketplacePrivacy(TModel model)
+        {
+        }
+
+        private List<TModel> Materialize(IQueryable<TEntity> query)
+        {
+            var result = query.Select(GetEntityToModelExpression().Expand()).ToList();
+            foreach (var item in result)
+            {
+                ApplyMarketplacePrivacyIfNeeded(item);
+            }
+
+            return result;
+        }
+
+        private void ApplyMarketplacePrivacyIfNeeded(TModel model)
+        {
+            if (model != null)
+            {
+                ApplyMarketplacePrivacy(model);
+            }
         }
 
         public List<TModel> GetModelsByIds(List<int> idList)

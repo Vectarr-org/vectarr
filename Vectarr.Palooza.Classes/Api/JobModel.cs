@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 using Vectarr.Palooza.CoreClasses.Enums;
 using Vectarr.Palooza.Classes.BaseApi;
 using Vectarr.Palooza.CoreClasses.Wrappers;
@@ -36,6 +37,13 @@ namespace Vectarr.Palooza.Classes.Api
         public string? Title { get; set; }
         public string? Description { get; set; }
         public int? WorkOrderId { get; set; }
+
+        /// <summary>
+        /// Workshop that won this job, when a work order exists. Used to decide who may see
+        /// the buyer's exact ship-to. Not part of the API payload.
+        /// </summary>
+        [JsonIgnore]
+        public int? AwardedWorkshopId { get; set; }
         public int? QCPercentage { get; set; }
         public bool RequireQcConfirmation { get; set; }
         public bool AutoAcceptQcReport { get; set; }

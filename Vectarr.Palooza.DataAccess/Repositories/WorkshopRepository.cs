@@ -3,6 +3,7 @@ using LinqKit;
 using Vectarr.Palooza.Classes.Api;
 using Vectarr.Palooza.Model;
 using Microsoft.EntityFrameworkCore;
+using Vectarr.Palooza.Classes.Privacy;
 using Vectarr.Palooza.DataAccess;
 using Vectarr.Palooza.DataAccess.Infrastructure;
 using Vectarr.Palooza.DataAccess.IRepositories;
@@ -167,6 +168,9 @@ namespace Vectarr.Palooza.DataAccess.Repositories
             return entity;
         }
 
-     
+        protected override void ApplyMarketplacePrivacy(WorkshopModel model)
+        {
+            MarketplacePrivacy.Apply(model, MarketplaceViewerContext.Current(UnitOfWork));
+        }
     }
 }

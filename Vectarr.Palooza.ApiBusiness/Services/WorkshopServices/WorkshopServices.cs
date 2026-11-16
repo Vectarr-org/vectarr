@@ -1,4 +1,5 @@
 ﻿using Vectarr.Palooza.ApiBusiness.Emailing.BaseEmailTemplating;
+using Vectarr.Palooza.Classes.Privacy;
 using Vectarr.Palooza.ApiBusiness.Emailing.EmailTemplates.TemplateClasses;
 using Vectarr.Palooza.ApiBusiness.IServices;
 using Vectarr.Palooza.ApiBusiness.Services.WorkOrderServices;
@@ -18,6 +19,12 @@ namespace Vectarr.Palooza.ApiBusiness.Services.WorkshopServices
         {
             _unitOfWork = unitOfWork;
             _emailSender = emailSender;
+        }
+
+        public override bool DoModelExtraValidation(WorkshopModel model, out List<string> errors)
+        {
+            errors = WorkshopLocationRules.Validate(model?.Address, model?.PhoneNumber).ToList();
+            return errors.Count == 0;
         }
 
         public List<JobModel> GetAvailableJobs()

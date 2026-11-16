@@ -4,7 +4,9 @@ using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using Vectarr.Palooza.Classes.Api;
 using Vectarr.Palooza.Classes.Filtering;
+using Vectarr.Palooza.Classes.Privacy;
 using Vectarr.Palooza.CoreClasses.Enums;
+using Vectarr.Palooza.DataAccess;
 using Vectarr.Palooza.DataAccess.Infrastructure;
 using Vectarr.Palooza.DataAccess.IRepositories;
 using Vectarr.Palooza.Model;
@@ -49,6 +51,16 @@ namespace Vectarr.Palooza.DataAccess.Repositories
                 JobId = entity.JobId,
                 WorkshopId = entity.WorkshopId,
                 CreatorId = entity.CreatorId,
+                ShippingAddress = entity.Creator.Address == null ? null : new AddressModel
+                {
+                    Id = entity.Creator.Address.Id,
+                    Country = entity.Creator.Address.Country,
+                    Street1 = entity.Creator.Address.Street1,
+                    Street2 = entity.Creator.Address.Street2,
+                    City = entity.Creator.Address.City,
+                    State = entity.Creator.Address.State,
+                    PostalCode = entity.Creator.Address.PostalCode
+                },
                 CurrentDeadline = entity.CurrentDeadline,
                 AcceptedBidId = entity.AcceptedBidId,
                 AcceptedBid = new BidModel()
@@ -100,6 +112,8 @@ namespace Vectarr.Palooza.DataAccess.Repositories
             entity.CurrentDeadline = model.CurrentDeadline;
             entity.AcceptedBidId = model.AcceptedBidId;
             entity.CurrentPrice = model.CurrentPrice;
+            // ShippingAddress is a response field copied from the buyer's stored address.
+            // It is not written back, so checkout data is not cleared when a shop reads the order.
 
             var existingImages = entity.AdditionalFiles ?? new List<Image>();
             var updatedImages = new List<Image>();
@@ -128,6 +142,11 @@ namespace Vectarr.Palooza.DataAccess.Repositories
             entity.ProgressStages = _unitOfWork.Repositories.WorkOrderProgressStageRepository.ReplaceCollection(existingProgressStages, updatedProgressStages);
 
             return entity;
+        }
+
+        protected override void ApplyMarketplacePrivacy(WorkOrderModel model)
+        {
+            MarketplacePrivacy.Apply(model, MarketplaceViewerContext.Current(UnitOfWork));
         }
     }
 }

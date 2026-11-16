@@ -17,6 +17,13 @@ namespace Vectarr.Palooza.Classes.Api
         public BidModel AcceptedBid { get; set; }
         public int CreatorId { get; set; }
         public int WorkshopId { get; set; }
+
+        /// <summary>
+        /// Buyer's ship-to. The full street and ZIP are included for the buyer, admins,
+        /// and the shop that won this accepted order. Other shops do not receive it.
+        /// </summary>
+        public AddressModel? ShippingAddress { get; set; }
+
         public decimal CurrentPrice { get; set; }
         public DateTime? CurrentDeadline { get; set; }
         public int EstimatedDaysToComplete { get; set; }
