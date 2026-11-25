@@ -8,6 +8,8 @@ namespace Vectarr.Palooza.Context
 {
     public class VectarrPostgresDBContext : IdentityDbContext<UserAccount, IdentityRole<int>, int>
     {
+        public DbSet<SiteFunnelDailyCount> SiteFunnelDailyCounts { get; set; } = null!;
+
         public VectarrPostgresDBContext(DbContextOptions<VectarrPostgresDBContext> options) : base(options)
         {
             ChangeTracker.LazyLoadingEnabled = true;

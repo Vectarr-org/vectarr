@@ -24,6 +24,7 @@ using Hangfire.PostgreSql;
 using Vectarr.Palooza.ApiBusiness.Services.BlogServices;
 using Vectarr.Palooza.ApiBusiness.Services.QuoteRequestServices;
 using Vectarr.Palooza.ApiBusiness.Services.BillingServices;
+using Vectarr.Palooza.ApiBusiness.Services.Metrics;
 
 namespace Vectarr.Palooza.WebApi
 {
@@ -109,6 +110,9 @@ namespace Vectarr.Palooza.WebApi
             services.AddScoped<QuoteRequestNotificationServices>();
             services.AddScoped<QuoteRequestServices>();
             services.AddScoped<QuoteRequestPaymentServices>();
+
+            // Cookie-free first-party funnel counters (daily aggregates only)
+            services.AddScoped<SiteFunnelService>();
 
             services.AddDefaultIdentity<UserAccount>(options => options.SignIn.RequireConfirmedAccount = false)
              .AddRoles<Model.IdentityRole>()  // <-- Add this line to enable role support

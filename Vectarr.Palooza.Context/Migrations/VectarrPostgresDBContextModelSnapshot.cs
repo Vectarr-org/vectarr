@@ -1154,6 +1154,23 @@ namespace Vectarr.Palooza.Context.Migrations
                     b.ToTable("Referral.Referral");
                 });
 
+            modelBuilder.Entity("Vectarr.Palooza.Model.SiteFunnelDailyCount", b =>
+                {
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Bucket")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Date", "Bucket");
+
+                    b.ToTable("Metrics.DailyCounts");
+                });
+
             modelBuilder.Entity("Vectarr.Palooza.Model.UserAccount", b =>
                 {
                     b.Property<int>("Id")
